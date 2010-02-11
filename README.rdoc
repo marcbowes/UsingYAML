@@ -1,6 +1,47 @@
-= somegem
+= Using Yaml
 
-Description goes here.
+This Gem allows you to easily associate YAML files with classes
+
+== Installation
+
+From Gemcutter:
+
+  sudo gem install using_yaml
+
+== Usage
+
+  require 'rubygems'
+  require 'using_yaml'
+
+  class ExampleUsage
+    include UsingYAML
+
+    using_yaml :some, :settings
+  end
+
+  example = ExampleUsage.new
+
+  # Load "OpenHash" from pathname.join('some.yml')
+  example.some #=> { "key" => "value" }
+
+  # Behaves like a normal hash
+  example.some['key'] #=> "value"
+
+  # AND like an object
+  example.some.key #=> "value"
+
+  # Setter methods work too
+  example.some.key = "another value"
+
+  # Saves to original location
+  example.save #=> writes
+
+  # .. and the same for settings
+  example.settings #=> "{ ... }"
+
+== Pathname
+
+Coming soon!
 
 == Note on Patches/Pull Requests
  
