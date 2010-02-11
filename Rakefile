@@ -1,16 +1,53 @@
-# Rakefile
+require 'rubygems'
+require 'rake'
+
 begin
   require 'jeweler'
-  Jeweler::Tasks.new do |gemspec|
-    gemspec.name = "using_yaml"
-    gemspec.summary = "Eases use of YAML."
-    gemspec.description = "Load, use and save YAML as if it was an object."
-    gemspec.email = "marcbowes@gmail.com"
-    gemspec.homepage = "http://github.com/marcbowes/using_yaml"
-    gemspec.authors = ["Marc Bowes"]
+  Jeweler::Tasks.new do |gem|
+    gem.name = "using_yaml"
+    gem.summary = %Q{"Load, save and use YAML files"}
+    gem.description = %Q{"Load, save and use YAML files as if they were objects"}
+    gem.email = "marcbowes@gmail.com"
+    gem.homepage = "http://github.com/marcbowes/UsingYAML"
+    gem.authors = ["Marc Bowes"]
+    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
+    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
-  puts "Jeweler not available. Install it with: sudo gem install jeweler -s http://gemcutter.org"
+  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
 end
 
+require 'rake/testtask'
+Rake::TestTask.new(:test) do |test|
+  test.libs << 'lib' << 'test'
+  test.pattern = 'test/**/test_*.rb'
+  test.verbose = true
+end
+
+begin
+  require 'rcov/rcovtask'
+  Rcov::RcovTask.new do |test|
+    test.libs << 'test'
+    test.pattern = 'test/**/test_*.rb'
+    test.verbose = true
+  end
+rescue LoadError
+  task :rcov do
+    abort "RCov is not available. In order to run rcov, you must: sudo gem install spicycode-rcov"
+  end
+end
+
+task :test => :check_dependencies
+
+task :default => :test
+
+require 'rake/rdoctask'
+Rake::RDocTask.new do |rdoc|
+  version = File.exist?('VERSION') ? File.read('VERSION') : ""
+
+  rdoc.rdoc_dir = 'rdoc'
+  rdoc.title = "using_yaml #{version}"
+  rdoc.rdoc_files.include('README*')
+  rdoc.rdoc_files.include('lib/**/*.rb')
+end
