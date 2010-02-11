@@ -17,12 +17,18 @@ Gem::Specification.new do |s|
      "README.rdoc"
   ]
   s.files = [
-    "LICENSE",
+    ".document",
+     ".gitignore",
+     "LICENSE",
+     "README.rdoc",
      "Rakefile",
      "VERSION",
      "lib/using_yaml.rb",
      "lib/using_yaml/open_hash.rb",
-     "lib/using_yaml/patches/hash.rb"
+     "lib/using_yaml/patches/hash.rb",
+     "test/helper.rb",
+     "test/test_using_yaml.rb",
+     "using_yaml.gemspec"
   ]
   s.homepage = %q{http://github.com/marcbowes/UsingYAML}
   s.rdoc_options = ["--charset=UTF-8"]
