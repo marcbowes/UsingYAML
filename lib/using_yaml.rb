@@ -52,7 +52,7 @@ module UsingYAML
         data = UsingYAML.cache[pathname]
         return data if data
 
-        data = YAML.load_file(pathname).to_ohash(pathname)
+        data = YAML.load_file(pathname).to_ohash(pathname) rescue nil
         UsingYAML.cache[pathname] = data
       end
     end
