@@ -32,6 +32,8 @@ module UsingYAML
 
   module ClassMethods
     def using_yaml(*args)
+      include InstanceMethods
+      
       args.each do |arg|
         case arg
         when Symbol, String
@@ -54,7 +56,7 @@ module UsingYAML
 
     def using_yaml_file(filename, options = {})
       define_method(filename) do
-        pathname = self.class.using_yaml_path.join("#{filename}.yml").expand_path
+        pathname = using_yaml_path.join("#{filename}.yml").expand_path
         data = UsingYAML.cache[pathname]
         return data if data
 
@@ -67,9 +69,13 @@ module UsingYAML
         end
       end
     end
+  end
 
+  module InstanceMethods
     def using_yaml_path
-      @using_yaml_path ||= Pathname.new(UsingYAML.path(self.inspect) || ENV['HOME'])
+      path = UsingYAML.path(self.class.name)
+      path = path.call(self) if path.is_a? Proc
+      @using_yaml_path ||= Pathname.new(path || ENV['HOME'])
     end
 
     def using_yaml_path=(path)
