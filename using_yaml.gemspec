@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{using_yaml}
-  s.version = "0.1.1"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marc Bowes"]
-  s.date = %q{2010-02-12}
+  s.date = %q{2010-02-13}
   s.description = %q{"Load, save and use YAML files as if they were objects"}
   s.email = %q{marcbowes@gmail.com}
   s.extra_rdoc_files = [
@@ -26,8 +26,9 @@ Gem::Specification.new do |s|
      "lib/using_yaml.rb",
      "lib/using_yaml/open_hash.rb",
      "lib/using_yaml/patches/hash.rb",
-     "test/helper.rb",
-     "test/test_using_yaml.rb",
+     "spec/spec_helper.rb",
+     "spec/using_yaml/path_spec.rb",
+     "spec/using_yaml/using_yaml_spec.rb",
      "using_yaml.gemspec"
   ]
   s.homepage = %q{http://github.com/marcbowes/UsingYAML}
@@ -36,8 +37,9 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{"Load, save and use YAML files"}
   s.test_files = [
-    "test/test_using_yaml.rb",
-     "test/helper.rb"
+    "spec/using_yaml/path_spec.rb",
+     "spec/using_yaml/using_yaml_spec.rb",
+     "spec/spec_helper.rb"
   ]
 
   if s.respond_to? :specification_version then
