@@ -9,14 +9,20 @@ module UsingYAML
       @@cache ||= {}
     end
 
-    def config(klass, key, value = nil)
-      @@config ||= {}
-      case value
-      when nil
-        (@@config[klass] ||= {})[key] = value
-      else
-        @@config[klass]
-      end
+    def path(klass)
+      return @@path[klass] if defined?(@@path)
+    end
+
+    def path=(args)
+      (@@path ||= {})[args.first] = args.last
+    end
+
+    def squelch!
+      @@squelched = true
+    end
+
+    def squelched?
+      defined?(@@squelched) && @@squelched
     end
   end
   
@@ -33,10 +39,10 @@ module UsingYAML
           using_yaml_file(filename)
         when Hash
           arg.each do |key, value|
-            case value
-            when Symbol
-              UsingYAML.config(self.class, key, value)
-            when Hash
+            case key
+            when :path
+              UsingYAML.path = [self.inspect, value]
+            else
               filename = key
               options  = value
               using_yaml_file(filename, options)
@@ -52,13 +58,22 @@ module UsingYAML
         data = UsingYAML.cache[pathname]
         return data if data
 
-        data = YAML.load_file(pathname).to_ohash(pathname) rescue nil
-        UsingYAML.cache[pathname] = data
+        begin
+          data = YAML.load_file(pathname).to_ohash(pathname)
+          UsingYAML.cache[pathname] = data
+        rescue Exception => e
+          $stderr.puts "(UsingYAML) Could not load #{filename}: #{e.message}" unless UsingYAML.squelched?
+          nil
+        end
       end
     end
 
     def using_yaml_path
-      @using_yaml_path ||= Pathname.new(UsingYAML.config(self.class, :pathname) || File.dirname(__FILE__))
+      @using_yaml_path ||= Pathname.new(UsingYAML.path(self.inspect) || ENV['HOME'])
+    end
+
+    def using_yaml_path=(path)
+      @using_yaml_path = path && Pathname.new(path)
     end
   end
 end
