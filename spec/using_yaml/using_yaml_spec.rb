@@ -10,7 +10,14 @@ describe 'UsingYAML#core' do
   end
 
   it "should return valid settings files" do
-    YAML.stubs(:load_file).with(anything).returns({})
-    @person.children.should == {}
+    YAML.stubs(:load_file).with(anything).returns({ 'foo' => 'bar' })
+    @person.children.should == { 'foo' => 'bar' }
+    @person.children.foo.should == 'bar'
+  end
+
+  it "should work with arrays" do
+    YAML.stubs(:load_file).with(anything).returns([ { 'foo' => 'bar' } ])
+    @person.children.class.name.should == 'Array'
+    @person.children.first.should == { 'foo' => 'bar' }
   end
 end

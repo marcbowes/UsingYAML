@@ -1,6 +1,7 @@
 require 'yaml'
 require 'pathname'
 require 'using_yaml/open_hash'
+require 'using_yaml/patches/array'
 require 'using_yaml/patches/hash'
 
 module UsingYAML

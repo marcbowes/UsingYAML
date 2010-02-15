@@ -30,7 +30,7 @@ module OpenHash
     def from_array(array, pathname = nil)
       Module.new do
         array.each do |e|
-          e.to_ohash
+          e.to_ohash(e)
         end
         
         if pathname
