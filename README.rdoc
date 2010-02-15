@@ -41,7 +41,46 @@ From Gemcutter:
 
 == Pathname
 
-Coming soon!
+By default, UsingYAML will look for .yml files in your home directory. There are several ways to configure this:
+
+=== With strings:
+
+   class ExampleUsage
+     include UsingYAML
+
+     using_yaml :example, :path => '/your/path/here'
+   end
+
+=== Using a Proc:
+
+   class ExampleUsage
+     include UsingYAML
+
+     using_yaml :example, :path => lambda { |c| c.pathname }
+     attr_accessor :pathname
+   end
+
+   example = ExampleUsage.new
+   example.pathname = '/your/path/here'
+
+=== Overriding using_yaml_path:
+
+   class ExampleUsage
+     include UsingYAML
+
+     using_yaml :example
+     
+     def using_yaml_path
+       '/your/code/here'
+     end
+   end
+
+
+== Error messages
+
+By default, UsingYAML will return nil for missing files. It will also complain on STDERR. If you want to disable the complaint:
+
+  UsingYAML.squelch!
 
 == Note on Patches/Pull Requests
  

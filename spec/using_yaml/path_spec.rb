@@ -1,15 +1,5 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-def reset_person!
-  Person.class_eval do
-    include UsingYAML
-    using_yaml :children
-  end
-
-  UsingYAML.path = ['Person', nil]
-  @person.using_yaml_path = nil
-end
-
 describe "UsingYAML#paths" do
   before(:each) do
     @person = Person.new

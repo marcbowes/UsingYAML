@@ -13,3 +13,14 @@ class Person
   include UsingYAML
   using_yaml :children
 end
+
+def reset_person!
+  Person.class_eval do
+    include UsingYAML
+    using_yaml :children
+  end
+
+  UsingYAML.path = ['Person', nil]
+  @person.using_yaml_path = nil
+  @person.using_yaml_cache = nil
+end

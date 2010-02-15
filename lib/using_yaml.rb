@@ -5,10 +5,6 @@ require 'using_yaml/patches/hash'
 
 module UsingYAML
   class << self
-    def cache
-      @@cache ||= {}
-    end
-
     def path(klass)
       return @@path[klass] if defined?(@@path)
     end
@@ -47,22 +43,23 @@ module UsingYAML
             else
               filename = key
               options  = value
-              using_yaml_file(filename, options)
+              using_yaml_file(filename)
             end
           end
         end
       end
     end
 
-    def using_yaml_file(filename, options = {})
+    def using_yaml_file(filename)
       define_method(filename) do
         pathname = using_yaml_path.join("#{filename}.yml").expand_path
-        data = UsingYAML.cache[pathname]
+        cache    = (@using_yaml_cache ||= {})
+        data     = @using_yaml_cache[pathname]
         return data if data
 
         begin
           data = YAML.load_file(pathname).to_ohash(pathname)
-          UsingYAML.cache[pathname] = data
+          @using_yaml_cache[pathname] = data
         rescue Exception => e
           $stderr.puts "(UsingYAML) Could not load #{filename}: #{e.message}" unless UsingYAML.squelched?
           nil
@@ -72,6 +69,8 @@ module UsingYAML
   end
 
   module InstanceMethods
+    attr_accessor :using_yaml_cache
+    
     def using_yaml_path
       path = UsingYAML.path(self.class.name)
       path = path.call(self) if path.is_a? Proc
