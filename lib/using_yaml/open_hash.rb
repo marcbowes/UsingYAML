@@ -4,7 +4,7 @@ module OpenHash
       Module.new do
         hash.each_pair do |key, value|
           define_method(key) do
-            value.respond_to?(:to_ohash) ? value.to_ohash : value
+            value.respond_to?(:to_ohash) ? value.to_ohash(value) : value
           end
 
           define_method("#{key}=") do |value|

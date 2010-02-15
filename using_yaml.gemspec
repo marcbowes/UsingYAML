@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{using_yaml}
-  s.version = "0.3.1"
+  s.version = "0.3.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marc Bowes"]
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
      "VERSION",
      "lib/using_yaml.rb",
      "lib/using_yaml/open_hash.rb",
+     "lib/using_yaml/patches/array.rb",
      "lib/using_yaml/patches/hash.rb",
      "spec/spec_helper.rb",
      "spec/using_yaml/path_spec.rb",
