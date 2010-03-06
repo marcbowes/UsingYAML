@@ -5,8 +5,8 @@ describe "UsingYAML#paths" do
     @person = Person.new
   end
 
-  it "should return $HOME for non-existant pathnames" do
-    @person.using_yaml_path.expand_path.to_s.should == ENV['HOME']
+  it "should return pwd for non-existant pathnames" do
+    @person.using_yaml_path.expand_path.to_s.should == `pwd`.strip
   end
 
   it "should return path/to/defined for globally set pathnames" do

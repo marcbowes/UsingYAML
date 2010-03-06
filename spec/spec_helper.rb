@@ -21,6 +21,6 @@ def reset_person!
   end
 
   UsingYAML.path = ['Person', nil]
-  @person.using_yaml_path = nil
-  @person.using_yaml_cache = nil
+  @person.instance_variable_set('@using_yaml_path',  nil)
+  @person.instance_variable_set('@using_yaml_cache', nil)
 end

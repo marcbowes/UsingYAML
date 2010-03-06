@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{using_yaml}
-  s.version = "0.3.3"
+  s.version = "1.0.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marc Bowes"]
-  s.date = %q{2010-02-15}
+  s.date = %q{2010-03-06}
   s.description = %q{"Load, save and use YAML files as if they were objects"}
   s.email = %q{marcbowes@gmail.com}
   s.extra_rdoc_files = [
@@ -24,9 +24,9 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "lib/using_yaml.rb",
-     "lib/using_yaml/open_hash.rb",
-     "lib/using_yaml/patches/array.rb",
-     "lib/using_yaml/patches/hash.rb",
+     "lib/using_yaml/array.rb",
+     "lib/using_yaml/hash.rb",
+     "lib/using_yaml/nilclass.rb",
      "spec/spec_helper.rb",
      "spec/using_yaml/path_spec.rb",
      "spec/using_yaml/using_yaml_spec.rb",
