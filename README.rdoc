@@ -82,6 +82,33 @@ By default, UsingYAML will return nil for missing files. It will also complain o
 
   UsingYAML.squelch!
 
+== Benchmark
+
+There are two extremes when navigating hashes. Either we hit a nil
+early, or we traverse successfully to the end. UsingYAML performs well regardless. Here are results using `ruby-1.8.7-p249 [ x86_64 ]`
+
+=== Testing chains of nils
+
+              user     system      total        real
+  normal      0.920000   0.040000   0.960000 (  0.980095)
+  chained     0.900000   0.060000   0.960000 (  0.973219)
+
+=== Testing where the keys exist
+
+              user     system      total        real
+  normal      2.780000   0.150000   2.930000 (  2.930808)
+  chained     0.960000   0.060000   1.020000 (  1.031477)
+
+=== Results
+
+While there are certainly other things to test, these benchmarks show
+that the method chaining performs either almost as well (in the case
+of nil.nil..) or significantly better (in the case of key.key..).
+
+I'd definitely like to do some more testing. However, this is
+primarily a convenience library to improve programmer happiness, so
+these tests have made me happy enough for now.
+
 == Note on Patches/Pull Requests
  
 * Fork the project.
