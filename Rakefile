@@ -36,5 +36,25 @@ Spec::Rake::SpecTask.new do |t|
   t.spec_files = Rake::FileList["spec/**/*_spec.rb"]
   t.spec_opts = ["-c"]
 end
- 
+
+desc "Run a simple performance benchmark"
+task :benchmark do
+  require 'lib/using_yaml'
+  require 'benchmark'
+
+  was_squelched = UsingYAML.squelched?
+  UsingYAML.squelch!
+  class Person
+    include UsingYAML
+    using_yaml :children
+  end
+  p = Person.new
+  p.children # "cache" the nil
+  Benchmark.bm(10) do |x|
+    x.report("normal")  { 1000.times do; p.children && p.children['something'] && p.children['invalid']; end }
+    x.report("chained") { 1000.times do; p.children.something.invalid; end }
+  end
+  UsingYAML.unsquelch! unless was_squelched
+end
+
 task :default => :spec
