@@ -1,8 +1,9 @@
 require 'yaml'
 require 'pathname'
-require 'using_yaml/array'
-require 'using_yaml/hash'
-require 'using_yaml/nilclass'
+
+Dir[File.join(File.dirname(__FILE__), 'using_yaml/*')].each do |ext|
+  require ext
+end
 
 # UsingYAML provides convenient class extensions which make it easy to
 # interact with YAML-storage of settings files by defining accessors
@@ -72,6 +73,11 @@ module UsingYAML
     # similar) which might otherwise be masked.
     def squelched?
       defined?(@@squelched) && @@squelched
+    end
+
+    # Opposite of +squelch!+
+    def unsquelch!
+      @@squelched = false
     end
   end
   
