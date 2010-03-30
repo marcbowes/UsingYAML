@@ -25,5 +25,6 @@ module UsingYAML
 
     # Load in the extensions for this instance
     array.extend(extensions)
+    array
   end
 end

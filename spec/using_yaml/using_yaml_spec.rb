@@ -11,7 +11,12 @@ describe 'UsingYAML' do
     end
 
     it "should gracefully handle nil.nil..." do
-      @person.children.invalid.call.should be_nil
+      @person.children.something.invalid.should be_nil
+    end
+
+    it "should return false when expected" do
+      YAML.stubs(:load_file).with(anything).returns({ 'example' => false })
+      @person.children.example.should == false
     end
   end
 

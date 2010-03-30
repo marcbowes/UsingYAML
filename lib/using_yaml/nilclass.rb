@@ -1,10 +1,10 @@
 module UsingYAML
   def self.add_nilclass_extensions(instance, pathname)
     extensions = Module.new do
-      define_method(:method_missing) do
+      define_method(:method_missing) do |*args|
         # Child objects should not have #save
         if respond_to? :save
-          add_extensions(nil)
+          UsingYAML::NilClass
         else
           # One nil is the same as the next :)
           self
@@ -29,5 +29,6 @@ module UsingYAML
     end
 
     instance.extend(extensions)
+    instance
   end
 end

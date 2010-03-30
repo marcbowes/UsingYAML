@@ -13,7 +13,8 @@ module UsingYAML
         name = args.shift.to_s
 
         if args.empty?
-          send(:[], name) || UsingYAML.add_extensions(nil)
+          value = send(:[], name)
+          value.nil? ? UsingYAML::NilClass : value
         elsif args.size == 1 && name =~ /(.+)=/
           # This is an "alias" turning self.key= into self[key]=
           # Also extends the incoming value so that it behaves
@@ -53,5 +54,6 @@ module UsingYAML
 
     # Load in the extensions for this instance
     hash.extend(extensions)
+    hash
   end
 end

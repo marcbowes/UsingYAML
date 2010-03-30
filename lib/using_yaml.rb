@@ -21,6 +21,8 @@ require 'using_yaml/nilclass'
 #
 # See +using_yaml+ for usage information.
 module UsingYAML
+  NilClass = add_nilclass_extensions(nil, nil)
+  
   class << self
     # Extends the incoming Array/Hash with magic which makes it
     # possible to +save+ and (in the case of Hashes) use methods
@@ -31,10 +33,14 @@ module UsingYAML
         add_array_extensions(object, pathname)
       when Hash
         add_hash_extensions(object, pathname)
-      when NilClass
-        add_nilclass_extensions(object, pathname)
+      when ::NilClass
+        if pathname
+          add_nilclass_extensions(object, pathname)
+        else
+          UsingYAML::NilClass
+        end
       end
-      
+            
       object
     end
   
@@ -142,7 +148,7 @@ module UsingYAML
           @using_yaml_cache[pathname] = UsingYAML.add_extensions(YAML.load_file(pathname), pathname)
         rescue Exception => e
           $stderr.puts "(UsingYAML) Could not load #{filename}: #{e.message}" unless UsingYAML.squelched?
-          UsingYAML.add_extensions(nil)
+          @using_yaml_cache[pathname] = UsingYAML.add_extensions(nil, pathname)
         end
       end
 
