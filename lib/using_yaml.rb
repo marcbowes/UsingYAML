@@ -142,7 +142,7 @@ module UsingYAML
 
         # If the yaml exists in our cache, then we don't need to hit
         # the disk.
-        return yaml if yaml
+        return yaml if @using_yaml_cache.has_key? pathname
 
         # Safe disk read which either reads and parses a YAML object
         # (and caches it against future reads) or graciously ignores
