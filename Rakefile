@@ -50,9 +50,10 @@ task :benchmark do
   end
   p = Person.new
   p.children # "cache" the nil
-  Benchmark.bm(10) do |x|
-    x.report("normal")  { 1000.times do; p.children && p.children['something'] && p.children['invalid']; end }
-    x.report("chained") { 1000.times do; p.children.something.invalid; end }
+  n = 10000
+  Benchmark.bmbm(10) do |x|
+    x.report("normal")  { n.times do; p.children && p.children['something'] && p.children['invalid']; end }
+    x.report("chained") { n.times do; p.children.something.invalid; end }
   end
   UsingYAML.unsquelch! unless was_squelched
 end
