@@ -51,6 +51,15 @@ task :benchmark do
   p = Person.new
   p.children # "cache" the nil
   n = 10000
+
+  puts "** Testing chains of nils **"
+  Benchmark.bmbm(10) do |x|
+    x.report("normal")  { n.times do; p.children && p.children['something'] && p.children['invalid']; end }
+    x.report("chained") { n.times do; p.children.something.invalid; end }
+  end
+
+  p.children = { 'something' => { 'valid' => 1 } }
+  puts "\n** Testing where the keys exist **"
   Benchmark.bmbm(10) do |x|
     x.report("normal")  { n.times do; p.children && p.children['something'] && p.children['invalid']; end }
     x.report("chained") { n.times do; p.children.something.invalid; end }
